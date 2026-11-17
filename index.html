@@ -1,0 +1,395 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Ihthisham — Cargo Operations & Data Analysis Portfolio</title>
+<meta name="description" content="Portfolio of a cargo operations professional building a data analyst practice: logistics KPI dashboards, delay analysis and demand forecasting.">
+<style>
+  :root{
+    --bg:#0a0e16; --surface:#111724; --surface2:#161d2d; --line:#222b3d;
+    --text:#e8ebf2; --muted:#8e98ab; --amber:#f5b942; --teal:#4fd1c5; --red:#f2726f;
+    --radius:18px; --max:1120px;
+  }
+  *{box-sizing:border-box;margin:0;padding:0}
+  html{scroll-behavior:smooth}
+  body{background:var(--bg);color:var(--text);font:16px/1.65 "Segoe UI",system-ui,-apple-system,Roboto,Helvetica,Arial,sans-serif;-webkit-font-smoothing:antialiased;overflow-x:hidden}
+  a{color:inherit;text-decoration:none}
+  .wrap{max-width:var(--max);margin:0 auto;padding:0 24px}
+  .mono{font-family:"Cascadia Code",Consolas,ui-monospace,Menlo,monospace}
+
+  /* background glow */
+  body::before{content:"";position:fixed;inset:0;z-index:-1;pointer-events:none;
+    background:
+      radial-gradient(700px 420px at 85% -5%,rgba(245,185,66,.13),transparent 60%),
+      radial-gradient(620px 420px at 0% 30%,rgba(79,209,197,.09),transparent 60%),
+      linear-gradient(rgba(255,255,255,.022) 1px,transparent 1px) 0 0/100% 48px,
+      linear-gradient(90deg,rgba(255,255,255,.022) 1px,transparent 1px) 0 0/48px 100%;}
+
+  /* nav */
+  header{position:sticky;top:0;z-index:20;backdrop-filter:blur(14px);background:rgba(10,14,22,.72);border-bottom:1px solid var(--line)}
+  nav{display:flex;align-items:center;justify-content:space-between;height:64px}
+  .brand{font-weight:700;letter-spacing:.02em;display:flex;align-items:center;gap:10px}
+  .brand i{width:10px;height:10px;border-radius:50%;background:var(--amber);box-shadow:0 0 14px var(--amber)}
+  .links{display:flex;gap:28px;font-size:14px;color:var(--muted)}
+  .links a:hover{color:var(--text)}
+  @media(max-width:720px){.links a:not(.cta){display:none}}
+  .cta{color:var(--bg)!important;background:var(--amber);padding:7px 16px;border-radius:999px;font-weight:600}
+
+  /* hero */
+  .hero{padding:96px 0 72px;display:grid;grid-template-columns:1.25fr .75fr;gap:48px;align-items:center}
+  @media(max-width:900px){.hero{grid-template-columns:1fr;padding:64px 0 48px}}
+  .tag{display:inline-flex;align-items:center;gap:8px;font-size:12.5px;letter-spacing:.14em;text-transform:uppercase;color:var(--teal);border:1px solid rgba(79,209,197,.35);padding:6px 14px;border-radius:999px;margin-bottom:26px}
+  h1{font-size:clamp(40px,6.4vw,76px);line-height:1.02;letter-spacing:-.03em;font-weight:800}
+  h1 span{background:linear-gradient(100deg,var(--amber),#ffe2a0 45%,var(--teal));-webkit-background-clip:text;background-clip:text;color:transparent}
+  .lede{margin-top:24px;font-size:19px;color:var(--muted);max-width:56ch}
+  .lede b{color:var(--text);font-weight:600}
+  .btns{display:flex;flex-wrap:wrap;gap:14px;margin-top:34px}
+  .btn{padding:13px 24px;border-radius:999px;font-weight:600;font-size:15px;border:1px solid var(--line);transition:.2s}
+  .btn:hover{transform:translateY(-2px);border-color:var(--amber)}
+  .btn.primary{background:var(--amber);color:var(--bg);border-color:var(--amber)}
+  .stats{display:grid;gap:14px}
+  .stat{background:linear-gradient(160deg,var(--surface2),var(--surface));border:1px solid var(--line);border-radius:var(--radius);padding:22px 24px;display:flex;align-items:baseline;gap:16px}
+  .stat b{font-size:40px;font-weight:800;letter-spacing:-.03em;color:var(--amber);min-width:86px}
+  .stat span{color:var(--muted);font-size:14.5px}
+
+  /* sections */
+  section{padding:72px 0}
+  .eyebrow{font-size:12.5px;letter-spacing:.16em;text-transform:uppercase;color:var(--amber);margin-bottom:10px}
+  h2{font-size:clamp(28px,3.6vw,42px);letter-spacing:-.02em;line-height:1.15;margin-bottom:14px}
+  .sub{color:var(--muted);max-width:66ch;margin-bottom:40px}
+  .note{display:inline-block;font-size:13px;color:var(--teal);background:rgba(79,209,197,.08);border:1px solid rgba(79,209,197,.28);padding:6px 14px;border-radius:10px;margin-bottom:36px}
+
+  /* projects */
+  .projects{display:grid;grid-template-columns:repeat(2,1fr);gap:24px}
+  @media(max-width:900px){.projects{grid-template-columns:1fr}}
+  .card{background:var(--surface);border:1px solid var(--line);border-radius:var(--radius);overflow:hidden;display:flex;flex-direction:column;transition:.25s}
+  .card:hover{border-color:rgba(245,185,66,.5);transform:translateY(-4px);box-shadow:0 18px 50px -24px rgba(245,185,66,.35)}
+  .chart{background:var(--surface2);border-bottom:1px solid var(--line);padding:18px 18px 8px}
+  .chart svg{display:block;width:100%;height:auto}
+  .chart-title{font-size:12px;color:var(--muted);letter-spacing:.04em;margin-bottom:6px;display:flex;justify-content:space-between;gap:12px}
+  .body{padding:24px 26px 26px;display:flex;flex-direction:column;gap:12px;flex:1}
+  .num{font-size:12px;color:var(--muted)}
+  h3{font-size:21px;letter-spacing:-.01em;line-height:1.25}
+  .body p{color:var(--muted);font-size:15px}
+  .finding{border-left:3px solid var(--amber);padding:4px 0 4px 14px;color:var(--text)!important;font-size:14.5px!important}
+  .chips{display:flex;flex-wrap:wrap;gap:8px;margin-top:auto;padding-top:6px}
+  .chip{font-size:12.5px;padding:4px 12px;border-radius:999px;border:1px solid var(--line);color:var(--muted);background:var(--surface2)}
+
+  /* experience */
+  .timeline{border-left:1px solid var(--line);margin-left:6px;display:grid;gap:36px}
+  .job{padding-left:30px;position:relative}
+  .job::before{content:"";position:absolute;left:-6px;top:8px;width:11px;height:11px;border-radius:50%;background:var(--bg);border:2px solid var(--amber)}
+  .job .when{font-size:13px;color:var(--teal)}
+  .job h3{margin:4px 0 2px}
+  .job .where{color:var(--muted);font-size:15px;margin-bottom:12px}
+  .job ul{list-style:none;display:grid;gap:8px;color:var(--muted);font-size:15px;max-width:74ch}
+  .job li{padding-left:20px;position:relative}
+  .job li::before{content:"→";position:absolute;left:0;color:var(--amber)}
+
+  /* skills grid */
+  .grid3{display:grid;grid-template-columns:repeat(3,1fr);gap:20px}
+  @media(max-width:900px){.grid3{grid-template-columns:1fr}}
+  .panel{background:var(--surface);border:1px solid var(--line);border-radius:var(--radius);padding:26px}
+  .panel h3{font-size:17px;margin-bottom:16px;display:flex;align-items:center;gap:10px}
+  .panel h3 i{width:8px;height:8px;border-radius:2px;background:var(--teal);transform:rotate(45deg)}
+  .panel .chips{margin-top:0;padding-top:0}
+  .certs{display:grid;grid-template-columns:repeat(3,1fr);gap:12px}
+  @media(max-width:900px){.certs{grid-template-columns:1fr}}
+  .cert{display:flex;gap:12px;align-items:center;background:var(--surface);border:1px solid var(--line);border-radius:14px;padding:14px 18px;font-size:14.5px}
+  .cert::before{content:"✓";color:var(--bg);background:var(--amber);width:22px;height:22px;border-radius:50%;display:grid;place-items:center;font-size:12px;font-weight:800;flex:none}
+  .two{display:grid;grid-template-columns:1fr 1fr;gap:20px;margin-top:20px}
+  @media(max-width:900px){.two{grid-template-columns:1fr}}
+  .langs{display:grid;gap:14px}
+  .lang{display:grid;grid-template-columns:90px 1fr 110px;align-items:center;gap:14px;font-size:14.5px}
+  .bar{height:6px;border-radius:99px;background:var(--surface2);overflow:hidden}
+  .bar i{display:block;height:100%;border-radius:99px;background:linear-gradient(90deg,var(--teal),var(--amber))}
+  .lang span:last-child{color:var(--muted);text-align:right;font-size:13px}
+
+  /* contact */
+  .contact{text-align:center;background:linear-gradient(160deg,var(--surface2),var(--surface));border:1px solid var(--line);border-radius:28px;padding:64px 24px}
+  .contact h2{margin-bottom:12px}
+  .contact p{color:var(--muted);max-width:52ch;margin:0 auto}
+  .contact .btns{justify-content:center}
+  footer{padding:36px 0 48px;color:var(--muted);font-size:13px;text-align:center}
+
+  /* reveal */
+  .reveal{opacity:0;transform:translateY(22px);transition:opacity .7s ease,transform .7s ease}
+  .reveal.in{opacity:1;transform:none}
+  @media(prefers-reduced-motion:reduce){.reveal{opacity:1;transform:none;transition:none}html{scroll-behavior:auto}}
+</style>
+</head>
+<body>
+
+<header>
+  <nav class="wrap">
+    <a class="brand" href="#top"><i></i><span data-name>Ihthisham</span></a>
+    <div class="links">
+      <a href="#projects">Projects</a>
+      <a href="#experience">Experience</a>
+      <a href="#skills">Skills</a>
+      <a href="#certs">Certifications</a>
+      <a class="cta" href="#contact">Contact</a>
+    </div>
+  </nav>
+</header>
+
+<main id="top">
+  <div class="wrap hero">
+    <div>
+      <div class="tag">● Cargo operations · Data analysis</div>
+      <h1>Turning cargo floor data into <span>clear decisions.</span></h1>
+      <p class="lede">I'm <b data-name>Ihthisham</b>, a cargo operations agent at <b>dnata</b> in the UAE with a <b>Bachelor of Computer Application</b>. I work with shipment records, KPIs and SLAs every day, and I build analysis projects that show how operations data becomes insight.</p>
+      <div class="btns">
+        <a class="btn primary" href="#projects">View projects</a>
+        <a class="btn" href="#contact">Get in touch</a>
+      </div>
+    </div>
+    <div class="stats">
+      <div class="stat"><b>9</b><span>IATA &amp; aviation certifications, including Dangerous Goods Regulations</span></div>
+      <div class="stat"><b>4</b><span>languages: English, Arabic, Hindi and Malayalam</span></div>
+      <div class="stat"><b>2024</b><span>in air cargo operations at dnata since January</span></div>
+    </div>
+  </div>
+
+  <section id="projects">
+    <div class="wrap">
+      <div class="eyebrow reveal">Selected work</div>
+      <h2 class="reveal">Data analysis projects</h2>
+      <p class="sub reveal">Four independent projects in the domain I know best: logistics. Each one starts from an operational question and ends with a finding someone could act on.</p>
+      <div class="note reveal">Personal projects built on synthetic data. No employer or customer data is used anywhere on this site.</div>
+
+      <div class="projects">
+        <article class="card reveal">
+          <div class="chart"><div class="chart-title"><span>Weekly on-time performance, %</span><span style="color:var(--red)">– – 95% SLA target</span></div><div id="c1"></div></div>
+          <div class="body">
+            <div class="num mono">01 / KPI DASHBOARD</div>
+            <h3>Air cargo on-time performance tracker</h3>
+            <p>A weekly KPI view that compares shipment on-time performance against an SLA target and flags the weeks that miss it, so a supervisor sees the problem periods at a glance.</p>
+            <p class="finding" id="f1"></p>
+            <div class="chips"><span class="chip">Excel</span><span class="chip">Pivot tables</span><span class="chip">KPI &amp; SLA reporting</span><span class="chip">Dashboard design</span></div>
+          </div>
+        </article>
+
+        <article class="card reveal">
+          <div class="chart"><div class="chart-title"><span>Delayed shipments by root cause</span><span>count</span></div><div id="c2"></div></div>
+          <div class="body">
+            <div class="num mono">02 / ROOT CAUSE ANALYSIS</div>
+            <h3>Shipment delay Pareto analysis</h3>
+            <p>Delay records categorised by cause and ranked to find the few causes behind most of the delays, turning a long exception log into a short priority list.</p>
+            <p class="finding" id="f2"></p>
+            <div class="chips"><span class="chip">SQL</span><span class="chip">Data cleaning</span><span class="chip">Pareto analysis</span><span class="chip">Excel</span></div>
+          </div>
+        </article>
+
+        <article class="card reveal">
+          <div class="chart"><div class="chart-title"><span>Average dwell time by acceptance slot, hours</span><span>lighter = longer</span></div><div id="c3"></div></div>
+          <div class="body">
+            <div class="num mono">03 / PATTERN ANALYSIS</div>
+            <h3>Warehouse dwell-time heatmap</h3>
+            <p>How long cargo waits between acceptance and release, broken down by weekday and time of day to show where staffing and dock capacity are stretched.</p>
+            <p class="finding" id="f3"></p>
+            <div class="chips"><span class="chip">SQL</span><span class="chip">Power BI</span><span class="chip">Time-series grouping</span><span class="chip">Heatmaps</span></div>
+          </div>
+        </article>
+
+        <article class="card reveal">
+          <div class="chart"><div class="chart-title"><span>Monthly export tonnage</span><span><span style="color:var(--teal)">— actual</span> &nbsp; <span style="color:var(--amber)">- - forecast</span></span></div><div id="c4"></div></div>
+          <div class="body">
+            <div class="num mono">04 / FORECASTING</div>
+            <h3>Export volume demand forecast</h3>
+            <p>Eighteen months of monthly tonnage used to project the next six with a seasonal baseline adjusted for year-on-year growth, giving planners an early view of peak season.</p>
+            <p class="finding" id="f4"></p>
+            <div class="chips"><span class="chip">Python</span><span class="chip">pandas</span><span class="chip">Seasonal baseline</span><span class="chip">Trend analysis</span></div>
+          </div>
+        </article>
+      </div>
+    </div>
+  </section>
+
+  <section id="experience">
+    <div class="wrap">
+      <div class="eyebrow reveal">Background</div>
+      <h2 class="reveal">Experience</h2>
+      <p class="sub reveal">Operational roles where accuracy in the record is the job: every shipment is a row of data that has to be right.</p>
+      <div class="timeline">
+        <div class="job reveal">
+          <div class="when mono">JAN 2024 — PRESENT</div>
+          <h3>Cargo Operations Agent</h3>
+          <div class="where">dnata · FG5 Cargo Terminal, UAE</div>
+          <ul>
+            <li>Enter, verify and maintain shipment records in the cargo management system, including air waybill validation and e-AWB / IATA e-Freight processing.</li>
+            <li>Handle import and export acceptance, build-up and breakdown, manifest verification, release and close-out.</li>
+            <li>Process special cargo: dangerous goods (IATA DGR classes 1–9), courier, diplomatic mail and special loads.</li>
+            <li>Contribute to KPI and SLA reporting while working to cargo security SOPs and UAE customs documentation requirements.</li>
+          </ul>
+        </div>
+        <div class="job reveal">
+          <div class="when mono">DEC 2023</div>
+          <h3>Sales &amp; Operations Coordinator</h3>
+          <div class="where">Destination Hill Travel &amp; Tourism</div>
+          <ul>
+            <li>Coordinated sales enquiries and day-to-day operations with a focus on customer service and accurate bookings.</li>
+          </ul>
+        </div>
+        <div class="job reveal">
+          <div class="when mono">EDUCATION</div>
+          <h3>Bachelor of Computer Application</h3>
+          <div class="where">Calicut University</div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section id="skills">
+    <div class="wrap">
+      <div class="eyebrow reveal">Toolkit</div>
+      <h2 class="reveal">Skills</h2>
+      <p class="sub reveal">Domain knowledge from the cargo floor, paired with the analysis tools used in the projects above.</p>
+      <div class="grid3">
+        <div class="panel reveal"><h3><i></i>Data &amp; reporting</h3><div class="chips">
+          <span class="chip">MS Excel</span><span class="chip">KPI &amp; SLA reporting</span><span class="chip">Data entry &amp; validation</span><span class="chip">SQL</span><span class="chip">Power BI</span><span class="chip">Python (pandas)</span><span class="chip">PowerPoint</span></div></div>
+        <div class="panel reveal"><h3><i></i>Cargo operations</h3><div class="chips">
+          <span class="chip">Import &amp; export acceptance</span><span class="chip">AWB verification</span><span class="chip">e-AWB / e-Freight</span><span class="chip">Manifest verification</span><span class="chip">Build-up &amp; breakdown</span><span class="chip">ULD handling</span><span class="chip">Bonded warehouse</span></div></div>
+        <div class="panel reveal"><h3><i></i>Compliance</h3><div class="chips">
+          <span class="chip">IATA DGR classes 1–9</span><span class="chip">Cargo security &amp; SOPs</span><span class="chip">UAE customs documentation</span><span class="chip">Shipment documentation control</span><span class="chip">Bills of lading</span></div></div>
+      </div>
+      <div class="two">
+        <div class="panel reveal"><h3><i></i>Languages</h3>
+          <div class="langs">
+            <div class="lang"><span>Malayalam</span><div class="bar"><i style="width:100%"></i></div><span>Native</span></div>
+            <div class="lang"><span>English</span><div class="bar"><i style="width:90%"></i></div><span>Fluent</span></div>
+            <div class="lang"><span>Hindi</span><div class="bar"><i style="width:90%"></i></div><span>Fluent</span></div>
+            <div class="lang"><span>Arabic</span><div class="bar"><i style="width:55%"></i></div><span>Read &amp; write</span></div>
+          </div>
+        </div>
+        <div class="panel reveal"><h3><i></i>How I work</h3><div class="chips">
+          <span class="chip">Attention to detail</span><span class="chip">Personal accountability</span><span class="chip">Teamwork</span><span class="chip">Effective communication</span><span class="chip">Customer focus</span><span class="chip">Resilience &amp; flexibility</span></div></div>
+      </div>
+    </div>
+  </section>
+
+  <section id="certs">
+    <div class="wrap">
+      <div class="eyebrow reveal">Credentials</div>
+      <h2 class="reveal">Certifications</h2>
+      <p class="sub reveal">Industry training covering dangerous goods, cargo handling, security and safety.</p>
+      <div class="certs reveal">
+        <div class="cert">IATA Dangerous Goods Regulations (DGR)</div>
+        <div class="cert">IATA ULD Handling</div>
+        <div class="cert">Cargo Handling &amp; Operations</div>
+        <div class="cert">Fundamentals of Cargo Operations</div>
+        <div class="cert">Cargo Product Knowledge</div>
+        <div class="cert">Special Load Handling</div>
+        <div class="cert">Aviation Security Awareness</div>
+        <div class="cert">Cargo Security Awareness</div>
+        <div class="cert">Aviation Health &amp; Safety</div>
+      </div>
+    </div>
+  </section>
+
+  <section id="contact">
+    <div class="wrap">
+      <div class="contact reveal">
+        <div class="eyebrow">Contact</div>
+        <h2>Let's talk data and logistics.</h2>
+        <p>Open to data analyst, operations analyst and logistics roles. Willing to relocate.</p>
+        <div class="btns">
+          <a class="btn primary" id="mail" href="#">Email me</a>
+          <a class="btn" id="li" href="#" target="_blank" rel="noopener">LinkedIn profile</a>
+        </div>
+      </div>
+    </div>
+  </section>
+</main>
+
+<footer class="wrap">© <span id="yr"></span> <span data-name>Ihthisham</span> · Project charts are rendered from synthetic sample data.</footer>
+
+<script>
+/* ---- Edit your details here ---- */
+const PROFILE = {
+  name: "Ihthisham",
+  email: "ihthisham952@gmail.com",
+  linkedin: "https://www.linkedin.com/"   // replace with your profile URL
+};
+/* -------------------------------- */
+document.querySelectorAll("[data-name]").forEach(e => e.textContent = PROFILE.name);
+document.getElementById("mail").href = "mailto:" + PROFILE.email;
+document.getElementById("li").href = PROFILE.linkedin;
+document.getElementById("yr").textContent = new Date().getFullYear();
+
+const C = {muted:"#8e98ab", line:"#222b3d", amber:"#f5b942", teal:"#4fd1c5", red:"#f2726f", text:"#e8ebf2"};
+const svg = (w,h,inner) => `<svg viewBox="0 0 ${w} ${h}" role="img">${inner}</svg>`;
+const txt = (x,y,s,o={}) => `<text x="${x}" y="${y}" font-size="${o.size||11}" fill="${o.fill||C.muted}" text-anchor="${o.anchor||"start"}" font-family="Segoe UI,system-ui,sans-serif">${s}</text>`;
+
+/* 1 — on-time performance */
+(() => {
+  const d=[96.2,95.8,96.5,97.1,95.4,94.6,93.9,95.2,96.0,96.8,97.3,96.1,94.8,93.2,92.7,94.1,95.6,96.4,96.9,97.2,95.1,94.3,95.9,96.6];
+  const W=520,H=210,L=36,R=12,T=10,B=26,lo=90,hi=100,target=95;
+  const x=i=>L+i*(W-L-R)/(d.length-1), y=v=>T+(hi-v)*(H-T-B)/(hi-lo);
+  let s="";
+  for(let v=lo;v<=hi;v+=2.5) s+=`<line x1="${L}" x2="${W-R}" y1="${y(v)}" y2="${y(v)}" stroke="${C.line}"/>`+txt(L-8,y(v)+4,v,{anchor:"end"});
+  [0,5,11,17,23].forEach(i=>s+=txt(x(i),H-6,"W"+(i+1),{anchor:"middle"}));
+  s+=`<line x1="${L}" x2="${W-R}" y1="${y(target)}" y2="${y(target)}" stroke="${C.red}" stroke-dasharray="5 5" stroke-width="1.5"/>`;
+  const pts=d.map((v,i)=>`${x(i)},${y(v)}`).join(" ");
+  s+=`<polygon points="${L},${H-B} ${pts} ${W-R},${H-B}" fill="${C.teal}" opacity=".09"/><polyline points="${pts}" fill="none" stroke="${C.teal}" stroke-width="2.2" stroke-linejoin="round"/>`;
+  d.forEach((v,i)=>s+=`<circle cx="${x(i)}" cy="${y(v)}" r="${v<target?4:2.6}" fill="${v<target?C.red:C.teal}"><title>Week ${i+1}: ${v}%</title></circle>`);
+  document.getElementById("c1").innerHTML=svg(W,H,s);
+  const miss=d.filter(v=>v<target).length, worst=d.indexOf(Math.min(...d))+1;
+  document.getElementById("f1").textContent=`Finding: ${miss} of ${d.length} weeks fell below the 95% target, with the lowest point (${Math.min(...d)}%) in week ${worst}, part of a four-week run that points to a peak-period capacity issue.`;
+})();
+
+/* 2 — Pareto */
+(() => {
+  const d=[["Documentation mismatch",312],["Late truck arrival",241],["Customs hold",158],["Screening queue",96],["ULD shortage",71],["Weather",38]];
+  const W=520,H=210,L=150,R=48,rowH=31,max=d[0][1],total=d.reduce((a,b)=>a+b[1],0);
+  let s="";
+  d.forEach(([n,v],i)=>{
+    const yy=10+i*rowH,w=(W-L-R)*v/max;
+    s+=txt(L-10,yy+17,n,{anchor:"end",size:12})+`<rect x="${L}" y="${yy+4}" width="${w}" height="18" rx="5" fill="${i<2?C.amber:C.teal}" opacity="${i<2?1:.55}"><title>${n}: ${v}</title></rect>`+txt(L+w+8,yy+17,v,{fill:C.text,size:12});
+  });
+  document.getElementById("c2").innerHTML=svg(W,H,s);
+  const share=Math.round((d[0][1]+d[1][1])/total*100);
+  document.getElementById("f2").textContent=`Finding: two causes, documentation mismatches and late truck arrivals, account for ${share}% of ${total} delayed shipments. Fixing paperwork checks at acceptance is the highest-value change.`;
+})();
+
+/* 3 — heatmap */
+(() => {
+  const days=["Mon","Tue","Wed","Thu","Fri","Sat","Sun"], slots=["00–04","04–08","08–12","12–16","16–20","20–24"];
+  const de=[.5,0,.2,.8,2.1,3,1.4], se=[2.2,1,0,.4,1.1,1.8];
+  const v=(i,j)=>+(5.5+de[i]+se[j]+(i>3&&j===0?.9:0)).toFixed(1);
+  const W=520,H=210,L=44,T=8,cw=(W-L-8)/7,ch=(H-T-24)/6;
+  let s="",best=[0,0,0],min=99;
+  for(let i=0;i<7;i++)for(let j=0;j<6;j++){const val=v(i,j); if(val>best[2])best=[i,j,val]; if(val<min)min=val;}
+  for(let j=0;j<6;j++){ s+=txt(L-8,T+j*ch+ch/2+4,slots[j],{anchor:"end",size:10});
+    for(let i=0;i<7;i++){const val=v(i,j),t=(val-min)/(best[2]-min);
+      s+=`<rect x="${L+i*cw+2}" y="${T+j*ch+2}" width="${cw-4}" height="${ch-4}" rx="5" fill="${C.amber}" opacity="${(.1+.9*t).toFixed(2)}"><title>${days[i]} ${slots[j]}: ${val} h</title></rect>`+txt(L+i*cw+cw/2,T+j*ch+ch/2+4,val,{anchor:"middle",size:10.5,fill:t>.55?"#0a0e16":C.text});}}
+  days.forEach((d,i)=>s+=txt(L+i*cw+cw/2,H-6,d,{anchor:"middle"}));
+  document.getElementById("c3").innerHTML=svg(W,H,s);
+  document.getElementById("f3").textContent=`Finding: dwell time peaks at ${best[2]} hours for cargo accepted on ${["Monday","Tuesday","Wednesday","Thursday","Friday","Saturday","Sunday"][best[0]]} ${slots[best[1]]}, about ${(best[2]/min).toFixed(1)}× the best slot (${min} h). Late-week night acceptance is where extra cover would pay off.`;
+})();
+
+/* 4 — forecast */
+(() => {
+  const a=[410,395,430,455,470,440,425,450,480,520,560,590,435,420,455,485,500,470], f=[452,478,510,552,595,626];
+  const m="JFMAMJJASOND", W=520,H=210,L=36,R=12,T=10,B=26,lo=350,hi=650,n=a.length+f.length;
+  const x=i=>L+i*(W-L-R)/(n-1), y=v=>T+(hi-v)*(H-T-B)/(hi-lo);
+  let s="";
+  for(let v=lo;v<=hi;v+=100) s+=`<line x1="${L}" x2="${W-R}" y1="${y(v)}" y2="${y(v)}" stroke="${C.line}"/>`+txt(L-8,y(v)+4,v,{anchor:"end"});
+  for(let i=0;i<n;i++) s+=txt(x(i),H-6,m[i%12],{anchor:"middle",size:10});
+  s+=`<rect x="${x(a.length-1)}" y="${T}" width="${W-R-x(a.length-1)}" height="${H-T-B}" fill="${C.amber}" opacity=".05"/>`;
+  s+=`<polyline points="${a.map((v,i)=>`${x(i)},${y(v)}`).join(" ")}" fill="none" stroke="${C.teal}" stroke-width="2.2" stroke-linejoin="round"/>`;
+  s+=`<polyline points="${[a[a.length-1],...f].map((v,i)=>`${x(a.length-1+i)},${y(v)}`).join(" ")}" fill="none" stroke="${C.amber}" stroke-width="2.2" stroke-dasharray="6 5"/>`;
+  a.forEach((v,i)=>s+=`<circle cx="${x(i)}" cy="${y(v)}" r="2.6" fill="${C.teal}"><title>${v} t</title></circle>`);
+  f.forEach((v,i)=>s+=`<circle cx="${x(a.length+i)}" cy="${y(v)}" r="3" fill="${C.amber}"><title>Forecast: ${v} t</title></circle>`);
+  document.getElementById("c4").innerHTML=svg(W,H,s);
+  const sum=r=>r.reduce((p,q)=>p+q,0), g=((sum(a.slice(12))/sum(a.slice(0,6))-1)*100).toFixed(1);
+  document.getElementById("f4").textContent=`Finding: volume is running ${g}% above the same months last year, and the forecast peaks at ${Math.max(...f)} tonnes in December, ${Math.round((Math.max(...f)/a[a.length-1]-1)*100)}% above the latest actual month.`;
+})();
+
+/* reveal on scroll */
+const io=new IntersectionObserver(es=>es.forEach(e=>{if(e.isIntersecting){e.target.classList.add("in");io.unobserve(e.target)}}),{threshold:.12});
+document.querySelectorAll(".reveal").forEach(e=>io.observe(e));
+</script>
+</body>
+</html>
