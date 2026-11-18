@@ -76,6 +76,12 @@
   .chips{display:flex;flex-wrap:wrap;gap:8px;margin-top:auto;padding-top:6px}
   .chip{font-size:12.5px;padding:4px 12px;border-radius:999px;border:1px solid var(--line);color:var(--muted);background:var(--surface2)}
 
+  .dash{display:grid;grid-template-columns:repeat(3,1fr);gap:22px}
+  @media(max-width:1000px){.dash{grid-template-columns:repeat(2,1fr)}}
+  @media(max-width:640px){.dash{grid-template-columns:1fr}}
+  .dash h3{font-size:19px}
+  .chart.mini{padding:16px 16px 10px}
+
   /* experience */
   .timeline{border-left:1px solid var(--line);margin-left:6px;display:grid;gap:36px}
   .job{padding-left:30px;position:relative}
@@ -125,6 +131,7 @@
   <nav class="wrap">
     <a class="brand" href="#top"><i></i><span data-name>Ihthisham</span></a>
     <div class="links">
+      <a href="#dashboards">Dashboards</a>
       <a href="#projects">Projects</a>
       <a href="#experience">Experience</a>
       <a href="#skills">Skills</a>
@@ -137,11 +144,11 @@
 <main id="top">
   <div class="wrap hero">
     <div>
-      <div class="tag">● Cargo operations · Data analysis</div>
+      <div class="tag">● Cargo operations · Power BI reporting</div>
       <h1>Turning cargo floor data into <span>clear decisions.</span></h1>
-      <p class="lede">I'm <b data-name>Ihthisham</b>, a cargo operations agent at <b>dnata</b> in the UAE with a <b>Bachelor of Computer Application</b>. I work with shipment records, KPIs and SLAs every day, and I build analysis projects that show how operations data becomes insight.</p>
+      <p class="lede">I'm <b data-name>Ihthisham</b>, a cargo operations agent at <b>dnata</b> in the UAE with a <b>Bachelor of Computer Application</b>. I work with shipment records, KPIs and SLAs every day, and I build <b>Power BI dashboards</b> that turn operational records into clear, decision-ready reporting.</p>
       <div class="btns">
-        <a class="btn primary" href="#projects">View projects</a>
+        <a class="btn primary" href="#dashboards">View dashboards</a>
         <a class="btn" href="#contact">Get in touch</a>
       </div>
     </div>
@@ -152,12 +159,77 @@
     </div>
   </div>
 
+  <section id="dashboards">
+    <div class="wrap">
+      <div class="eyebrow reveal">Workplace reporting</div>
+      <h2 class="reveal">Staffing operations dashboards</h2>
+      <p class="sub reveal">Power BI reporting I build for a staffing operations team, covering training, safety and workforce movement. Each dashboard replaces manual tracking with a refreshed, filterable view.</p>
+      <div class="note reveal">Built for internal use. The company, sites and real figures are kept confidential: visuals below are illustrative mock-ups.</div>
+      <div class="dash">
+        <article class="card reveal">
+          <div class="chart mini"><div id="d1"></div></div>
+          <div class="body">
+            <div class="num mono">01 / TRAINING</div>
+            <h3>Training Dashboard</h3>
+            <p>Tracks training completion and certificate expiry across the workforce, so supervisors can see who is complete, who is due soon and who is overdue.</p>
+            <div class="chips"><span class="chip">Power BI</span><span class="chip">DAX</span><span class="chip">SharePoint Lists</span><span class="chip">Conditional formatting</span></div>
+          </div>
+        </article>
+        <article class="card reveal">
+          <div class="chart mini"><div id="d2"></div></div>
+          <div class="body">
+            <div class="num mono">02 / HSE</div>
+            <h3>Toolbox Talk (TBT) Coverage</h3>
+            <p>Measures how much of the workforce attends toolbox safety talks each month. Session logs from separate teams are appended into one model in Power Query.</p>
+            <div class="chips"><span class="chip">Power Query (M)</span><span class="chip">DAX</span><span class="chip">Data modelling</span><span class="chip">Power BI</span></div>
+          </div>
+        </article>
+        <article class="card reveal">
+          <div class="chart mini"><div id="d3"></div></div>
+          <div class="body">
+            <div class="num mono">03 / COMPLIANCE</div>
+            <h3>Deployment Checklist</h3>
+            <p>A daily view of pre-deployment checklists completed against those expected. Entries come from a Power Apps form into a SharePoint list and refresh into Power BI.</p>
+            <div class="chips"><span class="chip">Power Apps</span><span class="chip">SharePoint Lists</span><span class="chip">Power BI</span><span class="chip">Scheduled refresh</span></div>
+          </div>
+        </article>
+        <article class="card reveal">
+          <div class="chart mini"><div id="d4"></div></div>
+          <div class="body">
+            <div class="num mono">04 / SAFETY</div>
+            <h3>Alcohol Test Dashboard</h3>
+            <p>Reports breathalyser test coverage against headcount, with results trends and slicers by location, team and period for management review.</p>
+            <div class="chips"><span class="chip">Power BI</span><span class="chip">DAX measures</span><span class="chip">Slicers &amp; drill-through</span><span class="chip">Scheduled refresh</span></div>
+          </div>
+        </article>
+        <article class="card reveal">
+          <div class="chart mini"><div id="d5"></div></div>
+          <div class="body">
+            <div class="num mono">05 / WORKFORCE</div>
+            <h3>Offboarding Analysis</h3>
+            <p>Breaks down staff exits by reason and length of service to show where attrition is concentrated and when in the employee lifecycle it happens.</p>
+            <div class="chips"><span class="chip">Excel</span><span class="chip">Power BI</span><span class="chip">DAX</span><span class="chip">Attrition analysis</span></div>
+          </div>
+        </article>
+        <article class="card reveal">
+          <div class="chart mini"><div id="d6"></div></div>
+          <div class="body">
+            <div class="num mono">06 / MOBILISATION</div>
+            <h3>Arrival Staff Tracker</h3>
+            <p>Follows new hires from deployment to arrival and joining, comparing expected and actual dates to flag delayed arrivals in the pipeline.</p>
+            <div class="chips"><span class="chip">Power Query</span><span class="chip">DAX date logic</span><span class="chip">Power BI</span><span class="chip">Pipeline tracking</span></div>
+          </div>
+        </article>
+      </div>
+    </div>
+  </section>
+
   <section id="projects">
     <div class="wrap">
-      <div class="eyebrow reveal">Selected work</div>
-      <h2 class="reveal">Data analysis projects</h2>
+      <div class="eyebrow reveal">Practice projects</div>
+      <h2 class="reveal">Logistics analysis projects</h2>
       <p class="sub reveal">Four independent projects in the domain I know best: logistics. Each one starts from an operational question and ends with a finding someone could act on.</p>
-      <div class="note reveal">Personal projects built on synthetic data. No employer or customer data is used anywhere on this site.</div>
+      <div class="note reveal">Personal projects built on synthetic data. No employer or customer data is used.</div>
 
       <div class="projects">
         <article class="card reveal">
@@ -178,7 +250,7 @@
             <h3>Shipment delay Pareto analysis</h3>
             <p>Delay records categorised by cause and ranked to find the few causes behind most of the delays, turning a long exception log into a short priority list.</p>
             <p class="finding" id="f2"></p>
-            <div class="chips"><span class="chip">SQL</span><span class="chip">Data cleaning</span><span class="chip">Pareto analysis</span><span class="chip">Excel</span></div>
+            <div class="chips"><span class="chip">Power Query</span><span class="chip">Data cleaning</span><span class="chip">Pareto analysis</span><span class="chip">Excel</span></div>
           </div>
         </article>
 
@@ -189,7 +261,7 @@
             <h3>Warehouse dwell-time heatmap</h3>
             <p>How long cargo waits between acceptance and release, broken down by weekday and time of day to show where staffing and dock capacity are stretched.</p>
             <p class="finding" id="f3"></p>
-            <div class="chips"><span class="chip">SQL</span><span class="chip">Power BI</span><span class="chip">Time-series grouping</span><span class="chip">Heatmaps</span></div>
+            <div class="chips"><span class="chip">Power Query</span><span class="chip">Power BI</span><span class="chip">Time-series grouping</span><span class="chip">Heatmaps</span></div>
           </div>
         </article>
 
@@ -200,7 +272,7 @@
             <h3>Export volume demand forecast</h3>
             <p>Eighteen months of monthly tonnage used to project the next six with a seasonal baseline adjusted for year-on-year growth, giving planners an early view of peak season.</p>
             <p class="finding" id="f4"></p>
-            <div class="chips"><span class="chip">Python</span><span class="chip">pandas</span><span class="chip">Seasonal baseline</span><span class="chip">Trend analysis</span></div>
+            <div class="chips"><span class="chip">Excel</span><span class="chip">Power BI</span><span class="chip">Seasonal baseline</span><span class="chip">Trend analysis</span></div>
           </div>
         </article>
       </div>
@@ -248,7 +320,7 @@
       <p class="sub reveal">Domain knowledge from the cargo floor, paired with the analysis tools used in the projects above.</p>
       <div class="grid3">
         <div class="panel reveal"><h3><i></i>Data &amp; reporting</h3><div class="chips">
-          <span class="chip">MS Excel</span><span class="chip">KPI &amp; SLA reporting</span><span class="chip">Data entry &amp; validation</span><span class="chip">SQL</span><span class="chip">Power BI</span><span class="chip">Python (pandas)</span><span class="chip">PowerPoint</span></div></div>
+          <span class="chip">Power BI</span><span class="chip">Power Query (M)</span><span class="chip">DAX</span><span class="chip">Data modelling</span><span class="chip">Scheduled refresh</span><span class="chip">Power Apps canvas forms</span><span class="chip">SharePoint Lists</span><span class="chip">MS Excel</span><span class="chip">KPI &amp; SLA reporting</span></div></div>
         <div class="panel reveal"><h3><i></i>Cargo operations</h3><div class="chips">
           <span class="chip">Import &amp; export acceptance</span><span class="chip">AWB verification</span><span class="chip">e-AWB / e-Freight</span><span class="chip">Manifest verification</span><span class="chip">Build-up &amp; breakdown</span><span class="chip">ULD handling</span><span class="chip">Bonded warehouse</span></div></div>
         <div class="panel reveal"><h3><i></i>Compliance</h3><div class="chips">
@@ -385,6 +457,47 @@ const txt = (x,y,s,o={}) => `<text x="${x}" y="${y}" font-size="${o.size||11}" f
   document.getElementById("c4").innerHTML=svg(W,H,s);
   const sum=r=>r.reduce((p,q)=>p+q,0), g=((sum(a.slice(12))/sum(a.slice(0,6))-1)*100).toFixed(1);
   document.getElementById("f4").textContent=`Finding: volume is running ${g}% above the same months last year, and the forecast peaks at ${Math.max(...f)} tonnes in December, ${Math.round((Math.max(...f)/a[a.length-1]-1)*100)}% above the latest actual month.`;
+})();
+
+/* ---- staffing dashboard mock-ups (illustrative only, no real data) ---- */
+(() => {
+  const W=340,H=150, put=(id,s)=>document.getElementById(id).innerHTML=svg(W,H,s);
+  const dot=(x,c,l)=>`<circle cx="${x}" cy="138" r="4" fill="${c}"/>`+txt(x+8,142,l,{size:10});
+  /* training: stacked bars complete / due / overdue */
+  { const rows=[["Team A",82,12,6],["Team B",74,16,10],["Team C",90,7,3],["Team D",68,20,12]]; let s="";
+    rows.forEach(([n,a,b,c],i)=>{const y=8+i*28,L=56,w=W-L-10;
+      s+=txt(L-8,y+13,n,{anchor:"end",size:10.5});
+      s+=`<rect x="${L}" y="${y+2}" width="${w*a/100}" height="14" fill="${C.teal}"/><rect x="${L+w*a/100}" y="${y+2}" width="${w*b/100}" height="14" fill="${C.amber}"/><rect x="${L+w*(a+b)/100}" y="${y+2}" width="${w*c/100}" height="14" fill="${C.red}"/>`;});
+    s+=dot(56,C.teal,"Complete")+dot(140,C.amber,"Due in 30 days")+dot(250,C.red,"Overdue");
+    put("d1",s); }
+  /* TBT: monthly columns + coverage line */
+  { const v=[62,70,66,78,84,81,88,91], L=14,B=124,cw=(W-L*2)/v.length; let s=txt(L,12,"Attendance coverage, %",{size:10}),pts=[];
+    v.forEach((p,i)=>{const h=p*0.95,x=L+i*cw;
+      s+=`<rect x="${x+6}" y="${B-h}" width="${cw-12}" height="${h}" rx="4" fill="${C.teal}" opacity=".35"/>`;
+      pts.push([x+cw/2,B-h]); s+=txt(x+cw/2,B+14,"M"+(i+1),{anchor:"middle",size:9.5});});
+    s+=`<polyline points="${pts.map(p=>p.join(",")).join(" ")}" fill="none" stroke="${C.amber}" stroke-width="2.2"/>`+pts.map(([x,y])=>`<circle cx="${x}" cy="${y}" r="3" fill="${C.amber}"/>`).join("");
+    put("d2",s); }
+  /* deployment checklist: KPI tiles + daily squares */
+  { let s=""; [["Expected","48",C.text],["Completed","45",C.teal],["Pending","3",C.amber]].forEach(([l,n,c],i)=>{const x=8+i*110;
+      s+=`<rect x="${x}" y="6" width="100" height="58" rx="10" fill="#0d1320" stroke="${C.line}"/>`+txt(x+12,38,n,{size:24,fill:c})+txt(x+12,56,l,{size:10});});
+    for(let i=0;i<14;i++){const ok=![4,9].includes(i); s+=`<rect x="${10+i*23}" y="86" width="18" height="18" rx="4" fill="${ok?C.teal:C.amber}" opacity="${ok?.75:1}"/>`;}
+    s+=txt(10,128,"Daily checklist completion, last 14 days",{size:10}); put("d3",s); }
+  /* alcohol test: coverage donut + weekly bars */
+  { const cx=72,cy=72,r=46,pct=.87,a=2*Math.PI*pct,x=cx+r*Math.sin(a),y=cy-r*Math.cos(a);
+    let s=`<circle cx="${cx}" cy="${cy}" r="${r}" fill="none" stroke="#0d1320" stroke-width="14"/><path d="M${cx} ${cy-r} A${r} ${r} 0 ${pct>.5?1:0} 1 ${x.toFixed(1)} ${y.toFixed(1)}" fill="none" stroke="${C.teal}" stroke-width="14" stroke-linecap="round"/>`
+      +txt(cx,cy+6,"87%",{anchor:"middle",size:20,fill:C.text})+txt(cx,cy+22,"tested",{anchor:"middle",size:9.5});
+    [40,55,48,62,70,66].forEach((v,i)=>s+=`<rect x="${160+i*28}" y="${110-v}" width="18" height="${v}" rx="4" fill="${C.amber}" opacity="${(.45+i*.1).toFixed(2)}"/>`);
+    s+=txt(160,130,"Tests per week",{size:10}); put("d4",s); }
+  /* offboarding: exits by reason */
+  { const r=[["Contract end",38],["Resignation",27],["Relocation",16],["Performance",11],["Other",8]]; let s="";
+    r.forEach(([n,v],i)=>{const y=6+i*27,L=96,w=(W-L-40)*v/38;
+      s+=txt(L-8,y+14,n,{anchor:"end",size:10.5})+`<rect x="${L}" y="${y+3}" width="${w}" height="15" rx="4" fill="${i===0?C.amber:C.teal}" opacity="${i===0?1:.6}"/>`+txt(L+w+6,y+14,v+"%",{size:10,fill:C.text});});
+    put("d5",s); }
+  /* arrival tracker: pipeline funnel */
+  { const st=[["Deployed",120],["Visa issued",104],["Arrived",92],["Joined",86]]; let s="";
+    st.forEach(([n,v],i)=>{const w=(W-120)*v/120,x=110+((W-120)-w)/2,y=6+i*32;
+      s+=txt(100,y+17,n,{anchor:"end",size:10.5})+`<rect x="${x}" y="${y}" width="${w}" height="24" rx="6" fill="${C.teal}" opacity="${(1-i*.17).toFixed(2)}"/>`+txt(x+w/2,y+16,v,{anchor:"middle",size:11,fill:"#0a0e16"});});
+    s+=txt(110,144,"6 arrivals past expected date",{size:10,fill:C.amber}); put("d6",s); }
 })();
 
 /* reveal on scroll */
